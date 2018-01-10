@@ -22,7 +22,7 @@ class ViewController: UIViewController, UICollectionViewDataSource {
         // Do any additional setup after loading the view, typically from a nib.
         collectionView.register(UINib.init(nibName: "Cell", bundle: nil), forCellWithReuseIdentifier: "Cell")
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.estimatedItemSize = CGSize(width: 1,height: 1)
+            flowLayout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
         }
         collectionView.dataSource = self
     }
@@ -33,7 +33,7 @@ class ViewController: UIViewController, UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return randomTexts.count;
+        return randomTexts.count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -41,6 +41,5 @@ class ViewController: UIViewController, UICollectionViewDataSource {
         cell.descriptionLabel.text = randomTexts[indexPath.row]
         return cell
     }
-    
 }
 
