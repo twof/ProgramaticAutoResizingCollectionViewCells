@@ -9,7 +9,77 @@
 import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    @IBOutlet weak var collectionView: UICollectionView!
+//    fileprivate let collectionView: UICollectionView = {
+//        let layout = UICollectionViewFlowLayout()
+//        layout.minimumLineSpacing = 4
+//        layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
+////        layout.itemSize = UICollectionViewFlowLayoutAutomaticSize
+//        let cards = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//        cards.accessibilityIdentifier = "CardView"
+//        cards.translatesAutoresizingMaskIntoConstraints = false
+//
+//        cards.backgroundColor = .white
+//        cards.register(Cell.self,
+//                       forCellWithReuseIdentifier: "Cell")
+//        cards.remembersLastFocusedIndexPath = true
+//        cards.layer.cornerRadius = 4
+//        return cards
+//    }()
+
+    var headerLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        label.clearsContextBeforeDrawing = true
+        label.numberOfLines = 0
+        label.accessibilityIdentifier = "Header"
+        label.backgroundColor = .yellow
+        //        label.bounds = CGRect(x: , y: <#T##Int#>, width: label.frame.width, height: label.frame..)
+        return label
+    }()
+
+    var descriptionLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        label.clearsContextBeforeDrawing = true
+        label.numberOfLines = 0
+        label.accessibilityIdentifier = "Description"
+        label.backgroundColor = .brown
+        label.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 1)
+        return label
+    }()
+
+    var staticView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .green
+        return view
+    }()
+
+    var labelStackView: UIStackView!
+    func setupStackView() -> UIStackView {
+        let view = UIStackView()
+        view.accessibilityIdentifier = "StackView"
+        view.axis = .vertical
+        view.alignment = .fill
+        view.distribution = .fillProportionally
+        view.spacing = 10
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.addArrangedSubview(headerLabel)
+        view.addArrangedSubview(descriptionLabel)
+        view.addArrangedSubview(staticView)
+        //        NSLayoutConstraint.activate([
+        //            headerLabel.bottomAnchor.constraint(equalTo: descriptionLabel.topAnchor, constant: -20)
+        //        ])
+        view.isLayoutMarginsRelativeArrangement = true
+        //        view.isBaselineRelativeArrangement = false
+        view.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+
+        return view
+    }
+
     
     let randomTexts = [
 //        "Aenean dapibus urna a ullamcorper malesuada. Ut tempor.",
@@ -21,39 +91,71 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        collectionView.register(Cell.self, forCellWithReuseIdentifier: "Cell")
-//        collectionView.register(UINib.init(nibName: "Cell", bundle: nil), forCellWithReuseIdentifier: "Cell")
-        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
-        }
-        collectionView.dataSource = self
-        collectionView.delegate = self
+        descriptionLabel.text = "This is the description of the view it's kinda long in order to make sure the view gets expanded"
+        headerLabel.text = randomTexts[0]
+        self.labelStackView = setupStackView()
+        view.addSubview(self.labelStackView)
+//        // Do any additional setup after loading the view, typically from a nib.
+//        collectionView.register(Cell.self, forCellWithReuseIdentifier: "Cell")
+////        collectionView.register(UINib.init(nibName: "Cell", bundle: nil), forCellWithReuseIdentifier: "Cell")
+//        collectionView.dataSource = self
+//        collectionView.delegate = self
+
+//        NSLayoutConstraint.activate([
+//            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+//            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+//            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+//            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+//        ])
+        NSLayoutConstraint.activate([
+            staticView.heightAnchor.constraint(equalToConstant: 20)
+        ])
+        NSLayoutConstraint.activate([
+            //            labelStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            //            labelStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            //            labelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            //            labelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+
+            labelStackView.topAnchor.constraint(equalTo: view.topAnchor),
+            labelStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            labelStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            labelStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        view.layoutIfNeeded()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    override func viewWillLayoutSubviews() {
-        collectionView.collectionViewLayout.invalidateLayout()
-    }
+//
+//    override func viewWillLayoutSubviews() {
+//        collectionView.collectionViewLayout.invalidateLayout()
+//    }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screenWidth = UIScreen.main.bounds.size.width
-        return CGSize(width: screenWidth - 24, height: 1)
+        return CGSize(width: screenWidth - 16, height: 1)
     }
 
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return randomTexts.count
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! Cell
         cell.headerLabel.text = randomTexts[indexPath.row]
         cell.setup(width: collectionView.bounds.width)
         return cell
+    }
+}
+
+// Found this at:
+// https://stackoverflow.com/questions/32082726/the-behavior-of-the-uicollectionviewflowlayout-is-not-defined-because-the-cell
+extension UICollectionViewFlowLayout {
+    override open func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+        super.shouldInvalidateLayout(forBoundsChange: newBounds)
+        return true
     }
 }
 

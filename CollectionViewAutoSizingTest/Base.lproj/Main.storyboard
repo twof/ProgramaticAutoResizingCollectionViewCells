@@ -41,9 +41,6 @@
                             <constraint firstItem="Bct-MK-pDv" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="dJH-0y-EkT"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="collectionView" destination="Bct-MK-pDv" id="ENi-Fd-fvb"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
