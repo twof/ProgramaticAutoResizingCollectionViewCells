@@ -86,22 +86,14 @@ class Cell: UICollectionViewCell {
     func setup(width: CGFloat) {
         descriptionLabel.text = "This is the description of the view it's kinda long in order to make sure the view gets expanded"
         setupViews()
-        layoutIfNeeded()
         setupConstraints(width: width)
-        layoutIfNeeded()
-//        let constraints = self.constraintsAffectingLayout(for: .horizontal)
-//        constraints[1].isActive = false
-//        print(constraints)
     }
     
     func setupViews() {
         self.contentView.backgroundColor = .purple
-//        self.contentView.translatesAutoresizingMaskIntoConstraints = false
-//        self.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.translatesAutoresizingMaskIntoConstraints = false
         self.labelStackView = setupStackView()
         contentView.addSubview(labelStackView)
-//        contentView.addSubview(headerLabel)
-//        contentView.addSubview(descriptionLabel)
     }
 
     func setupConstraints(width: CGFloat) {
