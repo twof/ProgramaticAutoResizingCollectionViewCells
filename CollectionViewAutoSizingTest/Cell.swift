@@ -149,17 +149,25 @@ class Cell: UICollectionViewCell {
             contentView.trailingAnchor.constraint(equalTo: superStackView.trailingAnchor)
         ])
 
+//        NSLayoutConstraint.activate([
+//            self.topAnchor.constraint(equalTo: contentView.topAnchor),
+//            self.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor),
+//            self.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+//            self.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+//        ])
+
         NSLayoutConstraint.activate([
-            self.contentView.widthAnchor.constraint(equalToConstant: width)
+            self.contentView.widthAnchor.constraint(equalToConstant: width),
+            self.contentView.heightAnchor.constraint(equalTo: superStackView.heightAnchor)
         ])
 
         NSLayoutConstraint.activate([
-            labelStackView.trailingAnchor.constraint(lessThanOrEqualTo: superStackView.trailingAnchor)
+            self.superStackView.widthAnchor.constraint(equalToConstant: width)
         ])
 
         NSLayoutConstraint.activate([
             self.checkBoxView.heightAnchor.constraint(equalToConstant: 20),
-            self.checkBoxView.widthAnchor.constraint(equalTo: checkBoxView.heightAnchor)
+            self.checkBoxView.widthAnchor.constraint(equalToConstant: 20)
         ])
     }
 }
